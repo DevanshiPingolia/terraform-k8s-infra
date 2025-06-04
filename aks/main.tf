@@ -16,6 +16,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   tags = {
-    environment = "sre"
+    environment = "demo"
   }
 }
