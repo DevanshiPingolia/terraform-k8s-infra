@@ -1,4 +1,4 @@
-resource "azurerm_postgresql_flexible_server" "main" {
+resource "azurerm_postgresql_server" "main" {
   name                   = "${var.name_prefix}-psql"
   location               = var.location
   resource_group_name    = var.resource_group_name
