@@ -1,33 +1,64 @@
-resource "helm_release" "glance" {
-  name       = "glance"
-  repository = "https://glance.jhnsh.dev"
-  chart      = "glance"
-  namespace  = "glance"
-  create_namespace = true
-  version    = "0.1.0" # Check for latest version
+resource "kubernetes_namespace" "glance" {
+  metadata {
+    name = var.namespace
+  }
+}
 
-  set {
-    name  = "ingress.enabled"
-    value = true
+resource "kubernetes_deployment" "glance" {
+  metadata {
+    name      = var.app_name
+    namespace = kubernetes_namespace.glance.metadata[0].name
+    labels = {
+      app = var.app_name
+    }
   }
 
-  set {
-    name  = "ingress.className"
-    value = var.ingress_class
+  spec {
+    replicas = var.replicas
+
+    selector {
+      match_labels = {
+        app = var.app_name
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = var.app_name
+        }
+      }
+
+      spec {
+        container {
+          name  = var.app_name
+          image = var.image
+
+          ports {
+            container_port = var.container_port
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "glance" {
+  metadata {
+    name      = "${var.app_name}-service"
+    namespace = kubernetes_namespace.glance.metadata[0].name
   }
 
-  set {
-    name  = "ingress.hosts[0].host"
-    value = var.app_domain
-  }
+  spec {
+    selector = {
+      app = kubernetes_deployment.glance.spec[0].template[0].metadata[0].labels.app
+    }
 
-  set {
-    name  = "ingress.hosts[0].paths[0].path"
-    value = "/"
-  }
+    port {
+      port        = var.service_port
+      target_port = var.container_port
+    }
 
-  set {
-    name  = "ingress.hosts[0].paths[0].pathType"
-    value = "Prefix"
+    type = "ClusterIP"
   }
 }

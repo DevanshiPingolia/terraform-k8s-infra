@@ -42,10 +42,9 @@ Terraform-Based Kubernetes Deployment with Let's Encrypt, Managed Postgres, and 
 9. Verify Deployments:
 
         kubectl get nodes
-        kubectl get pods -A
-        kubectl get svc -A
-        kubectl get ingress -A
-        helm list -A
+        kubectl get pods -n glance
+        kubectl get svc -n glance
+        kubectl get ingress
 
 10. To Destroy the Infrastructure:
 
