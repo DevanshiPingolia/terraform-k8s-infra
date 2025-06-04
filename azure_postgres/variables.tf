@@ -1,0 +1,10 @@
+variable "resource_group_name" { type = string }
+variable "location"            { type = string }
+variable "name_prefix"         { type = string }
+variable "db_admin_username"   { type = string }
+variable "db_admin_password"   { type = string }
+variable "sku_name"            { type = string }
+variable "storage_mb"          { type = number }
+variable "availability_zone"   { type = string }
+variable "subnet_id"           { type = string }
+variable "private_dns_zone_id"{ type = string }
