@@ -20,8 +20,8 @@ private_dns_zone_id  = "<dns zone resource ID>"
 subnet_id            = "<private subnet ID>"
 
 domain_name    = "yourdomain.com"
-public_ip      = "<public LB IP>"
-private_ip     = "<private LB IP>"
+public_ip      = "<public LB IP>" # LB service
+private_ip     = "<private LB IP>" # internal clusterIP service
 public_record_name  = "app"
 private_record_name = "app-internal"
 
